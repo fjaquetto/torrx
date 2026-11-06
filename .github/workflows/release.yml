@@ -132,7 +132,7 @@ jobs:
   build:
     name: ${{ matrix.target }}
     needs: prepare
-    if: needs.prepare.outputs.should_release == 'true'
+    if: needs.prepare.outputs.tag != ''
     strategy:
       fail-fast: false
       matrix:
