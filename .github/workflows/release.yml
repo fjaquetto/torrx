@@ -132,7 +132,7 @@ jobs:
   build:
     name: ${{ matrix.target }}
     needs: prepare
-    if: needs.prepare.outputs.tag != ''
+    if: inputs.tag != '' || needs.prepare.outputs.tag != ''
     strategy:
       fail-fast: false
       matrix:
@@ -152,12 +152,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.prepare.outputs.tag }}
+          ref: ${{ inputs.tag || needs.prepare.outputs.tag }}
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: torrx
           target: ${{ matrix.target }}
-          ref: refs/tags/${{ needs.prepare.outputs.tag }}
+          ref: refs/tags/${{ inputs.tag || needs.prepare.outputs.tag }}
           locked: true
           checksum: sha256
           include: LICENSE,README.md
