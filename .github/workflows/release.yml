@@ -129,18 +129,6 @@ jobs:
           case "$TAG" in *-*) flags+=(--prerelease) ;; esac
           gh release create "$TAG" "${flags[@]}"
 
-  debug:
-    name: debug inputs
-    runs-on: ubuntu-latest
-    needs: prepare
-    if: always()
-    steps:
-      - name: Show values
-        run: |
-          echo "inputs.tag=${{ inputs.tag }}"
-          echo "prepare.tag=${{ needs.prepare.outputs.tag }}"
-          echo "prepare.should_release=${{ needs.prepare.outputs.should_release }}"
-
   build:
     name: ${{ matrix.target }}
     needs: prepare
